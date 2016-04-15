@@ -7,4 +7,7 @@ public class ReleaseDates {
 
     String theater;
 
+    public String getTheater() {
+        return theater;
+    }
 }

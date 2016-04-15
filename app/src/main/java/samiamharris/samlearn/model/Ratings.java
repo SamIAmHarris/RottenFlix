@@ -15,4 +15,20 @@ public class Ratings {
     String audienceRating;
     @SerializedName("audience_score")
     int audeinceScore;
+
+    public String getCriticsRating() {
+        return criticsRating;
+    }
+
+    public int getCriticsScore() {
+        return criticsScore;
+    }
+
+    public String getAudienceRating() {
+        return audienceRating;
+    }
+
+    public int getAudeinceScore() {
+        return audeinceScore;
+    }
 }

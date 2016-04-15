@@ -22,4 +22,48 @@ public class Movie {
     @SerializedName("abridged_cast")
     ArrayList<CastMember> abridgedCast;
     Posters posters;
+
+    public int getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public String getMpaaRating() {
+        return mpaaRating;
+    }
+
+    public int getRuntime() {
+        return runtime;
+    }
+
+    public String getCriticsConsensus() {
+        return criticsConsensus;
+    }
+
+    public String getSynopsis() {
+        return synopsis;
+    }
+
+    public Ratings getRatings() {
+        return ratings;
+    }
+
+    public ReleaseDates getReleaseDates() {
+        return releaseDates;
+    }
+
+    public ArrayList<CastMember> getAbridgedCast() {
+        return abridgedCast;
+    }
+
+    public Posters getPosters() {
+        return posters;
+    }
 }

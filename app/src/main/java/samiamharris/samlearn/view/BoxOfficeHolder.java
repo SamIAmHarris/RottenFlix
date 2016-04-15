@@ -40,10 +40,10 @@ public class BoxOfficeHolder extends RecyclerView.ViewHolder
     public void bindMovie(Movie movie) {
         titleTextView.setText(movie.getTitle());
         yearTextView.setText(String.valueOf(movie.getYear()));
-        criticsScoreTextView.setText(
-                String.valueOf(movie.getRatings().getCriticsScore()));
-        audienceScoreTextView.setText(
-                String.valueOf(movie.getRatings().getAudeinceScore()));
+        criticsScoreTextView.setText("Critics Score: " +
+                String.valueOf(movie.getRatings().getCriticsScore()) + "%");
+        audienceScoreTextView.setText("Audience Score " +
+                String.valueOf(movie.getRatings().getAudeinceScore()) + "%");
 
         Glide
                 .with(itemView.getContext())

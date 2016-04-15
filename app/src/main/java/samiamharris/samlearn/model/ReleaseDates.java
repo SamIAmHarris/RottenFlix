@@ -6,6 +6,7 @@ package samiamharris.samlearn.model;
 public class ReleaseDates {
 
     String theater;
+    String dvd;
 
     public String getTheater() {
         return theater;

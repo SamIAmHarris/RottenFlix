@@ -13,7 +13,7 @@ public class Movie {
     int year;
     @SerializedName("mpaa_rating")
     String mpaaRating;
-    int runtime;
+    String runtime;
     @SerializedName("critics_consensus")
     String criticsConsensus;
     String synopsis;
@@ -39,7 +39,7 @@ public class Movie {
         return mpaaRating;
     }
 
-    public int getRuntime() {
+    public String getRuntime() {
         return runtime;
     }
 

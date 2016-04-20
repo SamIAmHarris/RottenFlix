@@ -23,6 +23,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.functions.Func1;
@@ -40,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
 
     BoxOfficeAdapter boxOfficeAdapter;
+    Subscription subscriptionReverse;
+    Subscription subscriptionLog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 Observable<List<Movie>> listObservable =
                         response.body().getBoxOfficeMovies();
 
-                listObservable
+                subscriptionReverse = listObservable
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .map(movies -> {
@@ -100,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 //                });
 //
 
-                listObservable
+                subscriptionLog = listObservable
                         .subscribeOn(Schedulers.io())
                         .observeOn(Schedulers.io())
                         .flatMap(movies -> Observable.from(movies))
@@ -118,5 +121,16 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("Wooo", "no");
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(subscriptionReverse != null && !subscriptionReverse.isUnsubscribed()) {
+            subscriptionReverse.unsubscribe();
+        }
+        if(subscriptionLog != null && !subscriptionLog.isUnsubscribed()) {
+            subscriptionLog.unsubscribe();
+        }
     }
 }

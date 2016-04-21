@@ -1,16 +1,17 @@
-package samiamharris.samlearn;
+package samiamharris.samlearn.activity;
 
-import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -22,12 +23,10 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
-import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
+import samiamharris.samlearn.R;
 import samiamharris.samlearn.api.gson.BoxOfficeDeserializer;
 import samiamharris.samlearn.api.gson.BoxOfficeSearchResponse;
 import samiamharris.samlearn.api.retrofit.BoxOfficeService;
@@ -55,6 +54,25 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(boxOfficeAdapter);
 
         makeCallToGetBoxOfficeMovies();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.activity_main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_search:
+                Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(searchIntent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     public void makeCallToGetBoxOfficeMovies() {
@@ -88,20 +106,6 @@ public class MainActivity extends AppCompatActivity {
                             boxOfficeAdapter.setData(movies);
                             boxOfficeAdapter.notifyDataSetChanged();
                         });
-
-//              Similar Code as below without the lambdas
-//                listObservable.flatMap(new Func1<List<Movie>, Observable<Movie>>() {
-//                    @Override
-//                    public Observable<Movie> call(List<Movie> movies) {
-//                        return Observable.from(movies);
-//                    }
-//                }).subscribe(new Action1<Movie>() {
-//                    @Override
-//                    public void call(Movie movie) {
-//                        Log.i("Wooo", movie.getTitle());
-//                    }
-//                });
-//
 
                 subscriptionLog = listObservable
                         .subscribeOn(Schedulers.io())

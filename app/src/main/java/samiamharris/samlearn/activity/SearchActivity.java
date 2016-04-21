@@ -24,6 +24,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import samiamharris.samlearn.R;
 import samiamharris.samlearn.api.gson.BoxOfficeDeserializer;
 import samiamharris.samlearn.api.gson.BoxOfficeSearchResponse;
@@ -60,8 +62,9 @@ public class SearchActivity extends AppCompatActivity {
 
         textObservable = RxTextView.textChanges(searchEditText);
         subscription = textObservable
-                .filter(query -> query.length() > 2)
-                .debounce(5, TimeUnit.SECONDS)
+                .observeOn(Schedulers.io())
+                .debounce(1, TimeUnit.SECONDS)
+                .filter(query -> query.toString().length() > 2)
                 .subscribe(query -> {
                     searchMovies(query.toString());
                 });
@@ -95,6 +98,7 @@ public class SearchActivity extends AppCompatActivity {
                                    Response<BoxOfficeSearchResponse> response) {
                 if(response != null && response.body() != null) {
                     response.body().getBoxOfficeMovies()
+                            .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(movies -> {
                                 boxOfficeAdapter.setData(movies);
                                 boxOfficeAdapter.notifyDataSetChanged();

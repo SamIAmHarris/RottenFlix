@@ -37,7 +37,10 @@ public class BoxOfficeAdapter extends RecyclerView.Adapter<BoxOfficeHolder> {
 
     @Override
     public int getItemCount() {
-        return boxOfficeMovies.size();
+        if(boxOfficeMovies != null) {
+            return boxOfficeMovies.size();
+        }
+        return 0;
     }
 
     public void setData(List<Movie> movies) {

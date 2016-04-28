@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import samiamharris.samlearn.R;
 import samiamharris.samlearn.model.Movie;
@@ -20,15 +20,15 @@ public class BoxOfficeHolder extends RecyclerView.ViewHolder
 
     private Movie movie;
 
-    @Bind(R.id.row_box_office_titleTextView)
+    @BindView(R.id.row_box_office_titleTextView)
     TextView titleTextView;
-    @Bind(R.id.row_box_office_yearTextView)
+    @BindView(R.id.row_box_office_yearTextView)
     TextView yearTextView;
-    @Bind(R.id.row_box_office_criticsScoreTextView)
+    @BindView(R.id.row_box_office_criticsScoreTextView)
     TextView criticsScoreTextView;
-    @Bind(R.id.row_box_office_audienceScoreTextView)
+    @BindView(R.id.row_box_office_audienceScoreTextView)
     TextView audienceScoreTextView;
-    @Bind(R.id.row_box_office_thumbnailImageView)
+    @BindView(R.id.row_box_office_thumbnailImageView)
     ImageView thumbnailImageView;
 
     public BoxOfficeHolder(View itemView) {

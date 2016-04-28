@@ -15,7 +15,7 @@ import com.google.gson.GsonBuilder;
 import java.util.Collections;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,7 +36,7 @@ import samiamharris.samlearn.view.BoxOfficeAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
-    @Bind(R.id.main_activity_RecyclerView)
+    @BindView(R.id.main_activity_RecyclerView)
     RecyclerView recyclerView;
 
     BoxOfficeAdapter boxOfficeAdapter;

@@ -15,7 +15,7 @@ import com.jakewharton.rxbinding.widget.RxTextView;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -37,9 +37,9 @@ import samiamharris.samlearn.view.BoxOfficeAdapter;
  */
 public class SearchActivity extends AppCompatActivity {
 
-    @Bind(R.id.activity_search_searchEditText)
+    @BindView(R.id.activity_search_searchEditText)
     EditText searchEditText;
-    @Bind(R.id.search_recyclerView)
+    @BindView(R.id.search_recyclerView)
     RecyclerView recyclerView;
 
     BoxOfficeAdapter boxOfficeAdapter;

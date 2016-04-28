@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
                                    Response<BoxOfficeSearchResponse> response) {
 
                 Observable<List<Movie>> listObservable =
-                        response.body().getBoxOfficeMovies();
+                        response.body().getBoxOfficeMoviesObservable();
 
                 subscriptionReverse = listObservable
                         .subscribeOn(Schedulers.io())

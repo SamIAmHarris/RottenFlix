@@ -17,15 +17,13 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
+import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import samiamharris.samlearn.R;
 import samiamharris.samlearn.api.gson.BoxOfficeDeserializer;
 import samiamharris.samlearn.api.gson.BoxOfficeSearchResponse;
@@ -60,13 +58,39 @@ public class SearchActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(boxOfficeAdapter);
 
+        GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(
+                BoxOfficeService.class, new BoxOfficeDeserializer());
+        Gson gson = gsonBuilder.create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(Constants.API_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+
+        SearchService service = retrofit.create(SearchService.class);
+
         textObservable = RxTextView.textChanges(searchEditText);
         subscription = textObservable
-                .observeOn(Schedulers.io())
                 .debounce(1, TimeUnit.SECONDS)
                 .filter(query -> query.toString().length() > 2)
-                .subscribe(query -> {
-                    searchMovies(query.toString());
+                .flatMap(charSequence -> service.searchMovies(charSequence.toString(), 7))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<BoxOfficeSearchResponse>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i("SearchActivity", e.toString());
+                    }
+
+                    @Override
+                    public void onNext(BoxOfficeSearchResponse boxOfficeSearchResponse) {
+                        boxOfficeAdapter.setData(boxOfficeSearchResponse.getBoxOfficeMovies());
+                        boxOfficeAdapter.notifyDataSetChanged();
+                    }
                 });
     }
 
@@ -76,42 +100,5 @@ public class SearchActivity extends AppCompatActivity {
         if(subscription != null && !subscription.isUnsubscribed()) {
             subscription.unsubscribe();
         }
-    }
-
-    public void searchMovies(String query) {
-        Log.i("Wooo", "searching movies with " + query);
-        GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(
-                BoxOfficeService.class, new BoxOfficeDeserializer());
-        Gson gson = gsonBuilder.create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.API_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        SearchService service = retrofit.create(SearchService.class);
-
-        Call<BoxOfficeSearchResponse> call = service.searchMovies(query, 30);
-        call.enqueue(new Callback<BoxOfficeSearchResponse>() {
-            @Override
-            public void onResponse(Call<BoxOfficeSearchResponse> call,
-                                   Response<BoxOfficeSearchResponse> response) {
-                if(response != null && response.body() != null) {
-                    response.body().getBoxOfficeMovies()
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(movies -> {
-                                boxOfficeAdapter.setData(movies);
-                                boxOfficeAdapter.notifyDataSetChanged();
-                            });
-                }
-                Log.i("Wooo", "yes");
-            }
-
-            @Override
-            public void onFailure(Call<BoxOfficeSearchResponse> call,
-                                  Throwable t) {
-                Log.i("Wooo", "no");
-            }
-        });
     }
 }

@@ -17,7 +17,11 @@ public class BoxOfficeSearchResponse {
     @SerializedName("movies")
     List<Movie> boxOfficeList;
 
-    public Observable<List<Movie>> getBoxOfficeMovies() {
+    public Observable<List<Movie>> getBoxOfficeMoviesObservable() {
         return Observable.just(boxOfficeList);
+    }
+
+    public List<Movie> getBoxOfficeMovies() {
+        return boxOfficeList;
     }
 }

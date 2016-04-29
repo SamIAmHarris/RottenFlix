@@ -1,5 +1,7 @@
 package samiamharris.samlearn.view;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,6 +12,9 @@ import com.bumptech.glide.Glide;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import samiamharris.samlearn.R;
+import samiamharris.samlearn.activity.MovieDetailActivity;
+import samiamharris.samlearn.activity.ReviewActivity;
+import samiamharris.samlearn.activity.SimilarMovieActivity;
 import samiamharris.samlearn.model.Movie;
 
 /**
@@ -19,6 +24,7 @@ public class BoxOfficeHolder extends RecyclerView.ViewHolder
         implements View.OnClickListener{
 
     private Movie movie;
+    Context context;
 
     @BindView(R.id.row_box_office_titleTextView)
     TextView titleTextView;
@@ -33,11 +39,13 @@ public class BoxOfficeHolder extends RecyclerView.ViewHolder
 
     public BoxOfficeHolder(View itemView) {
         super(itemView);
+        context = itemView.getContext();
         itemView.setOnClickListener(this);
         ButterKnife.bind(this, itemView);
     }
 
     public void bindMovie(Movie movie) {
+        this.movie = movie;
         titleTextView.setText(movie.getTitle());
         yearTextView.setText(String.valueOf(movie.getYear()));
         criticsScoreTextView.setText("Critics Score: " +
@@ -56,5 +64,9 @@ public class BoxOfficeHolder extends RecyclerView.ViewHolder
 
     @Override
     public void onClick(View v) {
+        Intent detailIntent =
+                MovieDetailActivity.newIntent(context, movie.getId());
+        context.startActivity(detailIntent);
+
     }
 }

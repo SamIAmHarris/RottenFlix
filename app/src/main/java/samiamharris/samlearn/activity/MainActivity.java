@@ -9,9 +9,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.util.Collections;
 import java.util.List;
 
@@ -20,18 +17,15 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import samiamharris.samlearn.R;
-import samiamharris.samlearn.api.gson.BoxOfficeDeserializer;
 import samiamharris.samlearn.api.gson.BoxOfficeSearchResponse;
-import samiamharris.samlearn.api.retrofit.BoxOfficeService;
+import samiamharris.samlearn.api.retrofit.service.BoxOfficeService;
+import samiamharris.samlearn.api.retrofit.DataManager;
 import samiamharris.samlearn.model.Movie;
-import samiamharris.samlearn.util.Constants;
 import samiamharris.samlearn.view.BoxOfficeAdapter;
 
 public class MainActivity extends AppCompatActivity {
@@ -76,16 +70,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void makeCallToGetBoxOfficeMovies() {
-        GsonBuilder gsonBuilder = new GsonBuilder().registerTypeAdapter(
-                BoxOfficeService.class, new BoxOfficeDeserializer());
-        Gson gson = gsonBuilder.create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.API_BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-
-        BoxOfficeService service = retrofit.create(BoxOfficeService.class);
+        BoxOfficeService service = DataManager.get().getBoxOfficeService();
 
         Call<BoxOfficeSearchResponse> call = service.getBoxOfficeMovies();
         call.enqueue(new Callback<BoxOfficeSearchResponse>() {

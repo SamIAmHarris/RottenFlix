@@ -1,4 +1,4 @@
-package samiamharris.samlearn.api.retrofit;
+package samiamharris.samlearn.api.retrofit.service;
 
 
 import retrofit2.http.GET;

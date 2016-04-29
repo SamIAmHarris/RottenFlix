@@ -20,6 +20,15 @@
 
         <activity android:name=".activity.SearchActivity">
         </activity>
+
+        <activity android:name=".activity.MovieDetailActivity">
+        </activity>
+
+        <activity android:name=".activity.ReviewActivity">
+        </activity>
+
+        <activity android:name=".activity.SimilarMovieActivity">
+        </activity>
     </application>
 
 </manifest>

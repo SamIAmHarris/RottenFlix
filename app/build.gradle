@@ -24,6 +24,11 @@ android {
             debuggable true
         }
     }
+
+    dexOptions {
+        maxProcessCount = 2
+        javaMaxHeapSize = "3g"
+    }
     compileOptions{
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

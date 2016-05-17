@@ -1,6 +1,7 @@
 package samiamharris.samlearn.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,6 +13,8 @@ import android.view.MenuItem;
 import java.util.Collections;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
@@ -21,6 +24,7 @@ import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import samiamharris.samlearn.MovieApplication;
 import samiamharris.samlearn.R;
 import samiamharris.samlearn.api.gson.BoxOfficeSearchResponse;
 import samiamharris.samlearn.api.retrofit.service.BoxOfficeService;
@@ -32,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.main_activity_RecyclerView)
     RecyclerView recyclerView;
+
+    @Inject
+    SharedPreferences prefs;
 
     BoxOfficeAdapter boxOfficeAdapter;
     Subscription subscriptionReverse;
@@ -46,6 +53,12 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         boxOfficeAdapter = new BoxOfficeAdapter(Collections.emptyList());
         recyclerView.setAdapter(boxOfficeAdapter);
+
+        ((MovieApplication)getApplication()).getComponent().inject(this);
+
+        if(prefs != null) {
+            Log.i("Wooo", "prefs not null");
+        }
 
         makeCallToGetBoxOfficeMovies();
     }

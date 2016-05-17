@@ -13,11 +13,14 @@ import com.jakewharton.rxbinding.widget.RxTextView;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import samiamharris.samlearn.MovieApplication;
 import samiamharris.samlearn.R;
 import samiamharris.samlearn.api.retrofit.DataManager;
 import samiamharris.samlearn.api.retrofit.service.SearchService;
@@ -33,6 +36,9 @@ public class SearchActivity extends AppCompatActivity {
     @BindView(R.id.search_recyclerView)
     RecyclerView recyclerView;
 
+    @Inject
+    DataManager dataManager;
+
     BoxOfficeAdapter boxOfficeAdapter;
 
     Observable<CharSequence> textObservable;
@@ -44,12 +50,13 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         ButterKnife.bind(this);
+        ((MovieApplication)getApplication()).getComponent().inject(this);
 
         boxOfficeAdapter = new BoxOfficeAdapter(Collections.EMPTY_LIST);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(boxOfficeAdapter);
 
-        SearchService service = DataManager.get().getSearchService();
+        SearchService service = dataManager.getSearchService();
 
         textObservable = RxTextView.textChanges(searchEditText);
         subscription = textObservable

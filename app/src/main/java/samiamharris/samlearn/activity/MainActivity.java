@@ -40,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     SharedPreferences prefs;
 
+    @Inject
+    DataManager dataManager;
+
     BoxOfficeAdapter boxOfficeAdapter;
     Subscription subscriptionReverse;
     Subscription subscriptionLog;
@@ -83,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void makeCallToGetBoxOfficeMovies() {
-        BoxOfficeService service = DataManager.get().getBoxOfficeService();
+        BoxOfficeService service = dataManager.getBoxOfficeService();
 
         Call<BoxOfficeSearchResponse> call = service.getBoxOfficeMovies();
         call.enqueue(new Callback<BoxOfficeSearchResponse>() {

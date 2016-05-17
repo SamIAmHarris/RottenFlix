@@ -8,10 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import javax.inject.Inject;
+
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import samiamharris.samlearn.MovieApplication;
 import samiamharris.samlearn.api.retrofit.DataManager;
 import samiamharris.samlearn.api.retrofit.service.MovieService;
 import samiamharris.samlearn.model.Movie;
@@ -25,6 +28,9 @@ public class MovieDetailActivity extends AppCompatActivity {
     int id;
     Subscription subscription;
 
+    @Inject
+    DataManager dataManager;
+
     public static Intent newIntent(Context context, int id) {
         Intent intent = new Intent(context, MovieDetailActivity.class);
         intent.putExtra(ID_EXTRA, id);
@@ -34,10 +40,11 @@ public class MovieDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((MovieApplication)getApplication()).getComponent().inject(this);
 
         id = getIntent().getIntExtra(ID_EXTRA, 0);
 
-        MovieService movieService = DataManager.get().getMovieService();
+        MovieService movieService = dataManager.getMovieService();
 
         subscription =
                 movieService.getIndividualMovie(id)

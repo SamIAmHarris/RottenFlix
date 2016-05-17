@@ -8,10 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import javax.inject.Inject;
+
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import samiamharris.samlearn.MovieApplication;
 import samiamharris.samlearn.api.gson.BoxOfficeSearchResponse;
 import samiamharris.samlearn.api.gson.ReviewResponse;
 import samiamharris.samlearn.api.retrofit.DataManager;
@@ -28,6 +31,9 @@ public class SimilarMovieActivity extends AppCompatActivity {
     int id;
     Subscription subscription;
 
+    @Inject
+    DataManager dataManager;
+
     public static Intent newIntent(Context context, int id) {
         Intent intent = new Intent(context, SimilarMovieActivity.class);
         intent.putExtra(ID_EXTRA, id);
@@ -37,10 +43,11 @@ public class SimilarMovieActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((MovieApplication)getApplication()).getComponent().inject(this);
 
         id = getIntent().getIntExtra(ID_EXTRA, 0);
 
-        SimilarService similarService = DataManager.get().getSimilarService();
+        SimilarService similarService = dataManager.getSimilarService();
 
         subscription =
                 similarService.getSimilarMovies(id, 5)

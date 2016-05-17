@@ -9,6 +9,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import samiamharris.samlearn.api.retrofit.DataManager;
 
 /**
  * Created by SamMyxer on 5/17/16.
@@ -17,9 +18,11 @@ import dagger.Provides;
 public class ApplicationModule {
 
     private Application application;
+    private DataManager dataManager;
 
-    public ApplicationModule(Application application) {
+    public ApplicationModule(Application application, DataManager dataManager) {
         this.application = application;
+        this.dataManager = dataManager;
     }
 
     @Provides
@@ -32,6 +35,12 @@ public class ApplicationModule {
     @Singleton
     public SharedPreferences provideSharedPreferences(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
+    @Provides
+    @Singleton
+    public DataManager provideDataManager() {
+        return dataManager;
     }
 
 }

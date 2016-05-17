@@ -2,6 +2,7 @@ package samiamharris.samlearn;
 
 import android.app.Application;
 
+import samiamharris.samlearn.api.retrofit.DataManager;
 import samiamharris.samlearn.dagger.ApplicationComponent;
 import samiamharris.samlearn.dagger.ApplicationModule;
 import samiamharris.samlearn.dagger.DaggerApplicationComponent;
@@ -18,7 +19,7 @@ public class MovieApplication extends Application {
         super.onCreate();
 
         component = DaggerApplicationComponent.builder()
-                .applicationModule(new ApplicationModule(this))
+                .applicationModule(new ApplicationModule(this, new DataManager()))
                 .build();
     }
 

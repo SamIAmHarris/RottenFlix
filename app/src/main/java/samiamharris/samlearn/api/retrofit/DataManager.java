@@ -22,20 +22,6 @@ import samiamharris.samlearn.util.Constants;
  */
 public class DataManager {
 
-    private static DataManager dataManager;
-
-    private DataManager() {
-
-    }
-
-    public static DataManager get() {
-        if(dataManager == null) {
-            dataManager = new DataManager();
-            return dataManager;
-        }
-        return dataManager;
-    }
-
     public BoxOfficeService getBoxOfficeService() {
         Gson gson = getBoxOfficeDeserializerGson();
 

@@ -7,7 +7,7 @@ android {
     buildToolsVersion "24.0.0 rc3"
 
     defaultConfig {
-        applicationId "samiamharris.samlearn"
+        applicationId "samiamharris.rottenflix"
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1

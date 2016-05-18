@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="samiamharris.samlearn">
+    package="samiamharris.rottenflix">
 
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:name=".MovieApplication"
+        android:name="samiamharris.rottenflix.MovieApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity">
+        <activity android:name="samiamharris.rottenflix.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,16 +19,16 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.SearchActivity">
+        <activity android:name="samiamharris.rottenflix.activity.SearchActivity">
         </activity>
 
-        <activity android:name=".activity.MovieDetailActivity">
+        <activity android:name="samiamharris.rottenflix.activity.MovieDetailActivity">
         </activity>
 
-        <activity android:name=".activity.ReviewActivity">
+        <activity android:name="samiamharris.rottenflix.activity.ReviewActivity">
         </activity>
 
-        <activity android:name=".activity.SimilarMovieActivity">
+        <activity android:name="samiamharris.rottenflix.activity.SimilarMovieActivity">
         </activity>
     </application>
 

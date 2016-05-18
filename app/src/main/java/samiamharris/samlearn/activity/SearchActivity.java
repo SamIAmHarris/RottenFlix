@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.jakewharton.rxbinding.widget.RxTextView;
 
@@ -20,10 +21,12 @@ import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import samiamharris.samlearn.MovieApplication;
 import samiamharris.samlearn.R;
 import samiamharris.samlearn.api.retrofit.DataManager;
 import samiamharris.samlearn.api.retrofit.service.SearchService;
+import samiamharris.samlearn.util.SharedPrefManager;
 import samiamharris.samlearn.view.BoxOfficeAdapter;
 
 /**
@@ -38,6 +41,9 @@ public class SearchActivity extends AppCompatActivity {
 
     @Inject
     DataManager dataManager;
+
+    @Inject
+    SharedPrefManager sharedPrefManager;
 
     BoxOfficeAdapter boxOfficeAdapter;
 
@@ -62,11 +68,19 @@ public class SearchActivity extends AppCompatActivity {
         subscription = textObservable
                 .debounce(1, TimeUnit.SECONDS)
                 .filter(query -> query.toString().length() > 2)
+                .doOnNext(new Action1<CharSequence>() {
+                    @Override
+                    public void call(CharSequence charSequence) {
+                        sharedPrefManager.setMostRecentSearch(charSequence.toString());
+                    }
+                })
                 .flatMap(charSequence -> service.searchMovies(charSequence.toString(), 7))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(boxOfficeSearchResponse -> {
                     boxOfficeAdapter.setData(boxOfficeSearchResponse.getBoxOfficeMovies());
                     boxOfficeAdapter.notifyDataSetChanged();
+                    Toast.makeText(getApplicationContext(), sharedPrefManager.getMostRecentSearch(),
+                            Toast.LENGTH_LONG).show();
                 }, throwable -> {
                     Log.i("SearchActivity", throwable.toString());
                 });

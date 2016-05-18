@@ -38,9 +38,6 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
 
     @Inject
-    SharedPreferences prefs;
-
-    @Inject
     DataManager dataManager;
 
     BoxOfficeAdapter boxOfficeAdapter;
@@ -58,10 +55,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(boxOfficeAdapter);
 
         ((MovieApplication)getApplication()).getComponent().inject(this);
-
-        if(prefs != null) {
-            Log.i("Wooo", "prefs not null");
-        }
 
         makeCallToGetBoxOfficeMovies();
     }

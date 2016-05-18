@@ -2,7 +2,6 @@ package samiamharris.samlearn.dagger;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import javax.inject.Singleton;
@@ -10,6 +9,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import samiamharris.samlearn.api.retrofit.DataManager;
+import samiamharris.samlearn.util.SharedPrefManager;
 
 /**
  * Created by SamMyxer on 5/17/16.
@@ -19,10 +19,13 @@ public class ApplicationModule {
 
     private Application application;
     private DataManager dataManager;
+    private SharedPrefManager sharedPrefManager;
 
     public ApplicationModule(Application application, DataManager dataManager) {
         this.application = application;
         this.dataManager = dataManager;
+        this.sharedPrefManager = new SharedPrefManager(
+                PreferenceManager.getDefaultSharedPreferences(application));
     }
 
     @Provides
@@ -33,14 +36,14 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    public SharedPreferences provideSharedPreferences(Context context) {
-        return PreferenceManager.getDefaultSharedPreferences(context);
+    public DataManager provideDataManager() {
+        return dataManager;
     }
 
     @Provides
     @Singleton
-    public DataManager provideDataManager() {
-        return dataManager;
+    public SharedPrefManager provideSharedPrefManager() {
+        return sharedPrefManager;
     }
 
 }

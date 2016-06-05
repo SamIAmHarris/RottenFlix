@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "535428898348",
+    "firebase_url": "https://project-2980355881490648311.firebaseio.com",
+    "project_id": "project-2980355881490648311",
+    "storage_bucket": "project-2980355881490648311.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:535428898348:android:c8d80be62b4124af",
+        "android_client_info": {
+          "package_name": "samiamharris.rottenflix"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "535428898348-5654nks75v6l5moefl15j9765miio870.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWBfnDMyXms_LdWe5tv1YNlR10G8pULXk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

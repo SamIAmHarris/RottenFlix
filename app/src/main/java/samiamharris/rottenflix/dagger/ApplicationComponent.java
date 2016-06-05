@@ -14,7 +14,7 @@ import samiamharris.rottenflix.activity.SimilarMovieActivity;
  * Created by SamMyxer on 5/17/16.
  */
 @Singleton
-@Component(modules = ApplicationModule.class)
+@Component(modules = {ApplicationModule.class, DataModule.class})
 public interface ApplicationComponent {
     void inject(MovieApplication target);
     void inject(MainActivity target);
@@ -22,5 +22,4 @@ public interface ApplicationComponent {
     void inject(ReviewActivity target);
     void inject(SearchActivity target);
     void inject(SimilarMovieActivity target);
-
 }

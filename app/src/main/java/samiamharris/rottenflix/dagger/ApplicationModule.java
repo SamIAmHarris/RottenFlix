@@ -18,12 +18,10 @@ import samiamharris.rottenflix.util.SharedPrefManager;
 public class ApplicationModule {
 
     private Application application;
-    private DataManager dataManager;
     private SharedPrefManager sharedPrefManager;
 
-    public ApplicationModule(Application application, DataManager dataManager) {
+    public ApplicationModule(Application application) {
         this.application = application;
-        this.dataManager = dataManager;
         this.sharedPrefManager = new SharedPrefManager(
                 PreferenceManager.getDefaultSharedPreferences(application));
     }
@@ -34,11 +32,6 @@ public class ApplicationModule {
         return application;
     }
 
-    @Provides
-    @Singleton
-    public DataManager provideDataManager() {
-        return dataManager;
-    }
 
     @Provides
     @Singleton

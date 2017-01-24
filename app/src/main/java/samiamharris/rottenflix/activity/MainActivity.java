@@ -85,31 +85,35 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<BoxOfficeSearchResponse> call,
                                    Response<BoxOfficeSearchResponse> response) {
+                if(response != null && response.body() != null) {
+                    Observable<List<Movie>> listObservable =
+                            response.body().getBoxOfficeMoviesObservable();
 
-                Observable<List<Movie>> listObservable =
-                        response.body().getBoxOfficeMoviesObservable();
+                    subscriptionReverse = listObservable
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .map(movies -> {
+                                Collections.reverse(movies);
+                                return movies;
+                            })
+                            .subscribe(movies -> {
+                                boxOfficeAdapter.setData(movies);
+                                boxOfficeAdapter.notifyDataSetChanged();
+                            });
 
-                subscriptionReverse = listObservable
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .map(movies -> {
-                            Collections.reverse(movies);
-                            return movies;})
-                        .subscribe(movies -> {
-                            boxOfficeAdapter.setData(movies);
-                            boxOfficeAdapter.notifyDataSetChanged();
-                        });
-
-                subscriptionLog = listObservable
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(Schedulers.io())
-                        .flatMap(movies -> Observable.from(movies))
-                        .filter(movie -> !movie.getTitle().equals("Criminal"))
-                        .take(7)
-                        .doOnNext(movie -> Log.i("Wooo", movie.getSynopsis()))
-                        .subscribe(movie -> {
-                            Log.i("Wooo", movie.getTitle());
-                        });
+                    subscriptionLog = listObservable
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(Schedulers.io())
+                            .flatMap(movies -> Observable.from(movies))
+                            .filter(movie -> !movie.getTitle().equals("Criminal"))
+                            .take(7)
+                            .doOnNext(movie -> Log.i("Wooo", movie.getSynopsis()))
+                            .subscribe(movie -> {
+                                Log.i("Wooo", movie.getTitle());
+                            });
+                } else {
+                    Log.i("boogienights", response.message());
+                }
             }
 
             @Override

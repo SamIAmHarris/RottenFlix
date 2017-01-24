@@ -3,13 +3,13 @@ apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "24.0.0 rc3"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
         applicationId "samiamharris.rottenflix"
         minSdkVersion 19
-        targetSdkVersion 23
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
 
@@ -58,9 +58,9 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
 
     //Support/Design
-    compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.android.support:recyclerview-v7:23.3.0'
-    compile 'com.android.support:support-annotations:23.3.0'
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.android.support:recyclerview-v7:25.1.0'
+    compile 'com.android.support:support-annotations:25.1.0'
 
     //Dagger 2.0
     compile 'com.google.dagger:dagger:2.0.1'
@@ -74,21 +74,17 @@ dependencies {
 
     //Testing
     testCompile 'org.robolectric:robolectric:3.0'
-    testCompile 'com.android.support:support-annotations:23.3.0'
+    testCompile 'com.android.support:support-annotations:25.1.0'
     testCompile 'junit:junit:4.12'
     testCompile "org.robolectric:shadows-support-v4:3.0"
     testCompile 'org.mockito:mockito-core:1.10.19'
     testApt 'com.google.dagger:dagger-compiler:2.0.1'
 
-    androidTestCompile 'com.android.support:support-annotations:23.3.0'
+    androidTestCompile 'com.android.support:support-annotations:25.1.0'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2') {
-        //Necessary to avoid version conflicts
-        exclude group: 'com.android.support', module: 'app-compat'
-        exclude group: 'com.android.support', module: 'support-v7'
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude module: 'recyclerview-v7'
+        exclude group: 'com.android.support'
     }
 
 }
